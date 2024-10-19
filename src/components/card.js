@@ -2,7 +2,9 @@
 // Функции, обрабатывающие события лайка и удаления карточки, также должны находиться в этом файле и экспортироваться из него.
 
 import { cardTemplate } from "./index.js";
-import { openModal } from "./modal.js";
+
+
+// const actionsCard = {addCard, removeCard, likeCard, openImagePopup};
 
 export function createCard(addCard, removeCard, likeCard, openImagePopup) {
   const cardElement = cardTemplate
@@ -35,16 +37,5 @@ export function likeCard(card) {
   card.target.classList.toggle("card__like-button_is-active");
 }
 
-// @todo: попап картинки
 
-export function openImagePopup(evt) {
-  const popupImage = document.querySelector(".popup__image");
-  const popupCaption = document.querySelector(".popup__caption");
-  const popupTypeImage = document.querySelector(".popup_type_image");
-
-  popupImage.src = evt.target.src;
-  popupImage.alt = evt.target.alt;
-  popupCaption.textContent = evt.target.closest('.card').querySelector(".card__title").textContent;
-
-  openModal(popupTypeImage);
-};
+// Я обязательно исправлю то, что вы посоветовали улучшить. Пока сложновато, нужно больше времени, иначе не успею в дедлайн 

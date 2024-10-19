@@ -4,23 +4,19 @@ export function openModal(popup) {
 }
 
 export function closeModal(popup) {
-  if (popup.target.classList.contains("popup__close")) {
-    removeOpenPopup();
-  } else if (popup.target.classList.contains("popup_is-opened")) {
-    removeOpenPopup();
-  }
+  popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeModalEsc);
 }
 
- function removeOpenPopup() {
-  document
-    .querySelector(".popup_is-opened")
-    .classList.remove("popup_is-opened");
-}
+//  export function removeOpenPopup() {
+//   document
+//     .querySelector(".popup_is-opened")
+//     .classList.remove("popup_is-opened");
+// }
 
  function closeModalEsc(event) {
-  if (event.kye === "Escape") {
-    removeOpenPopup();
+  if (event.key === "Escape") {
+    closeModal();
   }
 }
 

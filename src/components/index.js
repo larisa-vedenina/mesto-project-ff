@@ -44,7 +44,7 @@ function editProfile(evt) {
   profileTitle.textContent = newName;
   profileDescription.textContent = newjob;
 
-  removeOpenPopup();
+  closeModal(popupTypeEdit);
   clearForm(editProfileForm);
 }
 
@@ -64,7 +64,7 @@ addCardForm.addEventListener("submit", function (evt) {
   const newCardElemen = createCard(addCard, removeCard, likeCard, openImagePopup);
   listElements.prepend(newCardElemen);
 
-  removeOpenPopup(popupTypeNewCard);
+  closeModal(popupTypeNewCard);
   clearForm(addCardForm);
 });
 
@@ -92,8 +92,8 @@ initialCards.forEach((item) => {
 
 profileEditButton.addEventListener("click", function () {
   openModal(popupTypeEdit);
-
-  editProfileForm.reset();
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
 });
 
 profileAddButton.addEventListener("click", function () {
@@ -119,3 +119,5 @@ allPopup.forEach((popup) => {
         }
     });
 }); 
+
+//спасибо за помощь!

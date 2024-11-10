@@ -2,6 +2,7 @@ import "../pages/index.css";
 import { initialCards } from "./cards.js";
 import { createCard, removeCard, likeCard } from "./card.js";
 import { openModal, closeModal} from "./modal.js";
+import { enableValidation, clearValidation } from "./validation.js";
 
 // @todo: DOM узлы
 
@@ -26,13 +27,13 @@ const popupImage = document.querySelector(".popup__image");
 const popupImageCaption = document.querySelector(".popup__caption");
 
 
-// форма профиля
+// форма создания профиля ------------------------------------------
+
 const editProfileForm = document.querySelector('[name="edit-profile"]');
 const nameInput = document.querySelector('[name="name"]');
 const jobInput = document.querySelector('[name="description"]');
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-
 
 
 function editProfile(evt) {
@@ -50,6 +51,7 @@ function editProfile(evt) {
 
 editProfileForm.addEventListener("submit", editProfile);
 
+// ---------------------------------------------------------------------
 
 // форма создания карточки
 
@@ -88,6 +90,19 @@ initialCards.forEach((item) => {
   listElements.append(createCard(item, removeCard, likeCard, openImagePopup));
 });
 
+
+// валидация перед открытием попапа
+
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}); 
+
+
 // обработчики событий при открытии и закрытии попапов
 
 profileEditButton.addEventListener("click", function () {
@@ -120,4 +135,4 @@ allPopup.forEach((popup) => {
     });
 }); 
 
-//спасибо за помощь!
+clearValidation(editProfileForm, validationConfig); 

@@ -48,7 +48,7 @@
               <lable class="form__field">
                 <input
                   type="text"
-                  name="name"
+                  name="name-input"
                   class="popup__input popup__input_type_name"
                   id="name-input"
                   placeholder="Имя"
@@ -64,9 +64,9 @@
               <lable class="form__field">
                 <input
                   type="text"
-                  name="description"
+                  name="description-input"
                   class="popup__input popup__input_type_description"
-                  id="job-input"
+                  id="description-input"
                   placeholder="Занятие"
                   pattern="^[a-zA-Zа-яА-ЯЁё\s\-]+$"
                   data-error-message="Разрешены символы латиницы,
@@ -75,7 +75,7 @@
                   maxlength="200"
                   required
                 />
-                <span class="popup__input-error job-input-error"></span>
+                <span class="popup__input-error description-input-error"></span>
               </lable>
               <button type="submit" class="button popup__button">
                 Сохранить
@@ -93,8 +93,9 @@
               <lable class="form__field">
                 <input
                   type="text"
-                  name="place-name"
+                  name="place-name-input"
                   class="popup__input popup__input_type_card-name"
+                  id="place-name-input"
                   placeholder="Название"
                   pattern="^[a-zA-Zа-яА-ЯЁё\s\-]+$"
                   data-error-message="Разрешены символы латиницы,
@@ -103,17 +104,18 @@
                   maxlength="30"
                   required
                 />
-                <span class="popup__input-error name-input-error"></span>
+                <span class="popup__input-error place-name-input-error"></span>
               </lable>
               <lable class="form__field">
                 <input
                   type="url"
-                  name="link"
+                  name="link-input"
                   class="popup__input popup__input_type_url"
+                  id="link-input"
                   placeholder="Ссылка на картинку"
                   required
                 />
-                <span class="popup__input-error name-input-error"></span>
+                <span class="popup__input-error link-input-error"></span>
               </lable>
               <button type="submit" class="button popup__button">
                 Сохранить
@@ -122,6 +124,33 @@
           </form>
         </div>
       </div>
+<!-- попап обновления аватара  -->
+      <div class="popup popup_type_update-avatar">
+        <div class="popup__content">
+          <button type="button" class="popup__close"></button>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <form class="popup__form" name="update-avatar" novalidate>
+            <fieldset class="form__set">
+              <lable class="form__field">
+                <input
+                  type="url"
+                  name="link-avatar-input"
+                  class="popup__input popup__input_type_url_avatar"
+                  id="link-avatar-input"
+                  placeholder="https://somewebsite.com/someimage.jpg"
+                  required
+                />
+                <span class="popup__input-error link-avatar-input-error"></span>
+              </lable>
+              
+              <button type="submit" class="button popup__button">
+                Сохранить
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
       <div class="popup popup_type_image">
         <div class="popup__content popup__content_content_image">
           <button type="button" class="popup__close"></button>
@@ -137,7 +166,10 @@
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
+          <div class="card__like">
+            <button type="button" class="card__like-button"></button>
+            <span class="likes-count"></span>
+          </div>
         </div>
       </li>
     </template>

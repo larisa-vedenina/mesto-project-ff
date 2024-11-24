@@ -15,12 +15,14 @@
 }
 
 .popup__input_type_error {
-  border: 0;
-  border-bottom-color: 1px solid #FF0000;
+  border-color: #FF0000;
 }
 
 .popup__error_visible {
   display: block;
+  color: #FF0000;
+  font-weight: 400;
+  font-size: 12px;
 }
 
 

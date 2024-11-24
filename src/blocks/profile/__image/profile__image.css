@@ -1,4 +1,6 @@
 .profile__image {
+  position: relative;
+  display: block;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -7,7 +9,29 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  
 }
+
+.profile__image::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgb(000, 000, 000, 0.8);
+  opacity: 0;
+  border-radius: 50%;
+  transition: opacity 0.1s ease-out;
+}
+
+.profile__image::after {
+   content: ''; 
+   position: absolute; 
+   top: 0; left: 0; right: 0; bottom: 0; 
+   background: url(/src/images/pencil.svg) no-repeat center; 
+   opacity: 0; 
+}
+
+.profile__image:hover:before,
+.profile__image:hover:after { opacity: 1; }
 
 @media screen and (max-width: 740px) {
   .profile__image {

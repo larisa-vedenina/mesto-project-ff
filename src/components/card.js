@@ -4,7 +4,6 @@
 import { cardTemplate } from "./index.js";
 
 
-// const actionsCard = {addCard, removeCard, likeCard, openImagePopup};
 
 export function createCard(addCard, removeCard, likeCard, openImagePopup) {
   const cardElement = cardTemplate
@@ -14,9 +13,18 @@ export function createCard(addCard, removeCard, likeCard, openImagePopup) {
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const likeButton = cardElement.querySelector(".card__like-button");
 
+  //меняем значения 
   cardImage.src = addCard.link;
   cardImage.alt = addCard.name;
   cardElement.querySelector(".card__title").textContent = addCard.name;
+
+  // if (ownerId !== myId)
+
+  
+  // if (userId !== cardData.owner._id) 
+  // deleteButton.remove();
+
+  
 
   deleteButton.addEventListener("click", () => removeCard(cardElement));
   likeButton.addEventListener("click", likeCard);
@@ -38,4 +46,3 @@ export function likeCard(card) {
 }
 
 
-// Я обязательно исправлю то, что вы посоветовали улучшить. Пока сложновато, нужно больше времени, иначе не успею в дедлайн 

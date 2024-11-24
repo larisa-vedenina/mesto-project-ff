@@ -14,6 +14,11 @@
   margin-top: 48px;
 }
 
+.popup__button:active, :hover, :focus {
+  outline: 0;
+  outline-offset: 0;
+}
+
 .popup__button:hover {
   background: rgba(0, 0, 0, 0.8);
   cursor: pointer;

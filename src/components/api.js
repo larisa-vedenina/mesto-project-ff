@@ -42,25 +42,28 @@ export const editProfileData = (nameInput, descriptionInput) => {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${nameInput}`,
-            about: `${descriptionInput}`,
+            name: `${nameInput.value}`,
+            about: `${descriptionInput.value}`,
         })
     })
         .then(handleResponse)
 };
 
+
 // Добавление новой карточки
 
-export const addNewCard = (newCardData) => {
+export const addNewCard = (placeNameInput, linkInput) => {
+
     return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
         headers: config.headers,
-        body: JSON.stringify(newCardData)
+        body: JSON.stringify({
+            name: `${placeNameInput.value}`,
+            link: `${linkInput.value}`,
+        })
     })
-    .then(handleResponse)
+        .then(handleResponse)
 };
-
-
 
 
 
@@ -71,7 +74,7 @@ export const deleteCard = () => {
         method: 'DELETE',
         headers: config.headers
     })
-    .then(handleResponse)
+        .then(handleResponse)
 };
 
 // Постановка лайка
@@ -81,7 +84,7 @@ export const putLikeData = () => {
         method: 'PUT',
         headers: config.headers,
     })
-    .then(handleResponse)
+        .then(handleResponse)
 };
 
 // и снятие лайка
@@ -91,26 +94,23 @@ export const deleteLikeData = () => {
         method: 'DELETE',
         headers: config.headers,
     })
-    .then(handleResponse)
+        .then(handleResponse)
 };
 
 // Обновление аватара пользователя
 
 
-export const updateAvatarData = (newAvatarData) => {
+export const updateAvatarData = (linkAvatarInput) => {
     return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            avatar: newAvatarData,
+            avatar: `${linkAvatarInput.value}`,
         })
-        // .then(handleResponse)
     })
-
+        .then(handleResponse)
 };
 
 
 
 
-// Ты открываешь форму добавления карточки, прописываешь там название и ссылку.
-// В запросе передаешь эти данные, а в ответе получаешь объект карточки от сервера, с которым уже работаешь.

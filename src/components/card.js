@@ -1,9 +1,9 @@
 
 import { cardTemplate } from "./index.js";
-// import { deleteCard } from './api.js';
 
 
-export function createCard(addCard, removeCard, likeCard, openImagePopup) {
+export function createCard(cardData, removeCard, likeCard, openImagePopup) {
+
   const cardElement = cardTemplate
     .querySelector(".places__item")
     .cloneNode(true);
@@ -13,22 +13,19 @@ export function createCard(addCard, removeCard, likeCard, openImagePopup) {
   const likeButton = cardElement.querySelector(".card__like-button");
 
   // меняем значения 
-  cardImage.alt = addCard.name;
-  cardImage.src = addCard.link;
-  cardElement.querySelector(".card__title").textContent = addCard.name;
+  cardImage.alt = cardData.name;
+  cardImage.src = cardData.link;
+  cardElement.querySelector(".card__title").textContent = cardData.name;
 
-  // проверка айди
-  // if (userId !== cardElement.owner._id) 
-  // deleteButton.remove();
+// проверка айди
 
-  // deleteButton.addEventListener("click", () => {
-  //   removeCard(data._id, cardElement); // данные берем внутри createCard, тут все есть
-  // });
+  // console.log(cardData)
 
-  // removeCard(id, cardElement);
 
   deleteButton.addEventListener("click", () => removeCard(cardElement));
-  likeButton.addEventListener("click", likeCard);
+  
+  likeButton.addEventListener("click", likeCard); 
+
   cardImage.addEventListener("click", openImagePopup);
 
   return cardElement;
@@ -37,16 +34,10 @@ export function createCard(addCard, removeCard, likeCard, openImagePopup) {
 // @todo: Функция удаления карточки
 
 export function removeCard(card) { 
-
   card.remove(); 
 
 } 
 
-// export function removeCard(id, cardElement) {
-//   deteleCard(id).then(() => {
-//     cardElement.remove()
-//   })
-// }
 
 // @todo: like на карточке
 

@@ -27,12 +27,18 @@ const checkInputValidity = (formElement, inputElement) => {
 };
 
 export const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(".popup__form"));
+
+  const popupForm = document.querySelectorAll(".popup__form");
+
+  const formList = Array.from(popupForm);
   formList.forEach((formElement) => {
     formElement.addEventListener("submit", function (evt) {
       evt.preventDefault();
     });
-    const fieldsetList = Array.from(formElement.querySelectorAll(".form__set"));
+
+    const formSet = formElement.querySelectorAll(".form__set");
+
+    const fieldsetList = Array.from(formSet);
     fieldsetList.forEach((fieldset) => {
       setEventListeners(fieldset);
     });
@@ -56,7 +62,10 @@ const toggleButtonState = (inputList, buttonElement) => {
 };
 
 const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
+
+  const popupInput = formElement.querySelectorAll(".popup__input");
+
+  const inputList = Array.from(popupInput);
   const buttonElement = formElement.querySelector(".popup__button");
 
   // чтобы проверить состояние кнопки в самом начале
@@ -72,10 +81,13 @@ const setEventListeners = (formElement) => {
 };
 
 export const clearValidation = (formElement, validationConfig) => {
-    const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-    const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-    inputList.forEach((inputElement) => {
-        hideInputError(formElement, inputElement, validationConfig);
-    });
-    toggleButtonState(inputList, buttonElement, validationConfig);
+
+  const inputSelector = formElement.querySelectorAll(validationConfig.inputSelector);
+
+  const inputList = Array.from(inputSelector);
+  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, validationConfig);
+  });
+  toggleButtonState(inputList, buttonElement, validationConfig);
 };

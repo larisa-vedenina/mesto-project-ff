@@ -66,7 +66,6 @@ export const addNewCard = (placeNameInput, linkInput) => {
 };
 
 
-
 // Удаление карточки
 
 export const deleteCard = () => {
@@ -76,6 +75,7 @@ export const deleteCard = () => {
     })
         .then(handleResponse)
 };
+
 
 // Постановка лайка
 

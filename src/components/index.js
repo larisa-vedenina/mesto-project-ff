@@ -61,14 +61,17 @@ const likeCount = document.querySelector(".like-count");
 
 // валидация форм
 
-enableValidation({
+const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
-});
+};
+
+
+enableValidation(validationConfig);
 
 
 // вывести карточки на страницу
@@ -102,6 +105,8 @@ function renderLoading(isLoading) {
 function editProfile(evt) {
   evt.preventDefault();
   renderLoading(true);
+  clearValidation(editProfileForm, validationConfig); 
+
 
   editProfileData(nameInput, descriptionInput)
     .then((newProfileData) => {
@@ -183,6 +188,7 @@ addCardForm.addEventListener("submit", function (evt) {
 
       closeModal(popupTypeNewCard);
       clearForm(addCardForm);
+      clearValidation(addCardForm, validationConfig); 
     })
 
 
@@ -195,6 +201,22 @@ addCardForm.addEventListener("submit", function (evt) {
 });
 
 // поставить лайк
+// getInitialCards().then((data) => {
+//   console.log(data.lakes);
+
+  // перебираем массив 
+  //Делаешь условие если класс есть у лайка(то есть лайк уже стоит) вызываешь reqDelLike если нет то postLike. Далее там например если хочешь поставить лайк то вызываешь postLike(elem_id).then(res=>{CardLikeBtn.classList.add(класс)})
+  if (likeButton.classList.contains('card__like-button')) {
+    deleteLikeData().then ((data) => {
+      console.log(data)
+    })
+  } else {
+    putLikeData().then((data) => {
+      console.log(data)
+  })
+  };
+
+
 
 
 function clearForm(form) {

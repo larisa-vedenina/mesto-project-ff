@@ -20,7 +20,7 @@ import {
 } from "./api.js";
 
 // @todo: DOM узлы
-let userId = null;
+
 
 export const cardTemplate = document.querySelector("#card-template").content;
 const content = document.querySelector(".content");
@@ -201,23 +201,43 @@ addCardForm.addEventListener("submit", function (evt) {
 });
 
 // поставить лайк
+
 // getInitialCards().then((data) => {
 //   console.log(data.lakes);
 
-  // перебираем массив 
-  //Делаешь условие если класс есть у лайка(то есть лайк уже стоит) вызываешь reqDelLike если нет то postLike. Далее там например если хочешь поставить лайк то вызываешь postLike(elem_id).then(res=>{CardLikeBtn.classList.add(класс)})
-  if (likeButton.classList.contains('card__like-button')) {
-    deleteLikeData().then ((data) => {
-      console.log(data)
-    })
-  } else {
-    putLikeData().then((data) => {
-      console.log(data)
-  })
-  };
+
+  // if (likeButton.classList.contains('card__like-button')) {
+  //   deleteLikeData().then ((data) => {
+  //     console.log(data)
+  //   })
+  // } else {
+  //   putLikeData().then((data) => {
+  //     console.log(data)
+  // })
+  // };
 
 
+  // удаление карточки
 
+//   let cardForDelete = {}
+// const handleDeleteCard = (cardId, cardElement) => {
+//   cardForDelete = {
+//     id: cardId,
+//     cardElement
+//   }
+// };
+
+// const handleDeleteCardSubmit = (evt) => {
+//   evt.preventDefault();
+//  if (!cardForDelete.cardElement) return;
+
+//  deleteCard(cardForDelete.id)
+//     .then(() => {
+//       cardForDelete.cardElement.remove();
+//       cardForDelete = {};
+//     })
+//     .catch(err => console.log(`Ошибка: ${err}`))
+// };
 
 function clearForm(form) {
   form.reset();

@@ -14,7 +14,6 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
   const likeCount = cardElement.querySelector(".like-count");
 
 
-  // меняем значения 
   cardImage.alt = cardData.name;
   cardImage.src = cardData.link;
   cardElement.querySelector(".card__title").textContent = cardData.name;
@@ -25,26 +24,33 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
   if (userId !== cardData.owner._id) {
     deleteButton.remove();
   }
-  
+
   // удаление карточки
-  
+
   deleteButton.addEventListener("click", () => {
     removeCard(cardData._id, cardElement);
   });
-  
-  // состояние лайка
 
+  // кол-во лайков равно длине массива лайков
+  likeCount.textContent = cardData.likes.length;
+
+  //сравниваем есть ли ID пользователя в массиве лайков у карточки. Если есть - красим лайк, иначе нет
   const isLiked = cardData.likes.some((like) => like._id === userId);
 
   if (isLiked) {
     likeButton.classList.add("card__like-button_is-active");
+  } else {
+    likeButton.classList.remove("card__like-button_is-active");
   };
 
   // like на карточке
 
   likeButton.addEventListener("click", () => {
-    likeCard(cardData.owner._id, cardData.likes.length);
+    likeCard(cardData._id, cardData.likes.length, likeButton);
   });
+
+  // состояние лайк
+
 
   cardImage.addEventListener("click", openImagePopup);
 
@@ -53,24 +59,39 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
 
 
 
-
-
-
-
-// export function likeCard(card) {
-//   card.target.classList.toggle("card__like-button_is-active");
-// }
+// функция лайка
 
 let cardForLike = {}
 
-export function likeCard(likeId, likeLength) {
+//при клике будет срабатывать функция, которая принимает айди карточки, кол-во лайков, саму кнопку
+export const likeCard = (cardId, likeLength, likeButton) => {
+  
   cardForLike = {
-    id: likeId,
-    length: likeLength
+    id: cardId,
+    length: likeLength,
   }
 
-  putLikeData(likeId).then((data) => {
+  // если кнопка закрашена, то запрашиваем id на сервере и убираем лайк
+  if (likeButton.classList.contains('card__like-button_is-active')) {
+    deleteLikeData(cardForLike.id)
+      .then((data) => {
+        console.log(data);
 
-    console.log(data)
-  })
+        // убираем активный класс с кнопки и уменьшаем счетчик на 1
+        likeButton.classList.remove("card__like-button_is-active");
+        likeLength--;
+      })
+      .catch(err => console.log(`Ошибка: ${err}`))
+  }
+  // иначе мы закрашиваем кнопку и учеличиваем счетчик
+  else {
+    putLikeData(cardForLike.id)
+      .then(() => {
+        likeButton.classList.add("card__like-button_is-active");
+        likeLength++;
+        // likeCount.textContent = likeLength - 1;
+      })
+      .catch(err => console.log(`Ошибка: ${err}`))
+  };
 }
+

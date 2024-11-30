@@ -1,3 +1,5 @@
+// не могу понять как реализовать комментарий о функции enableValidation, которая должна принимать параметром объект с селекторами классов
+
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add("popup__input_type_error");
@@ -53,10 +55,10 @@ const hasInvalidInput = (inputList) => {
 
 const toggleButtonState = (inputList, buttonElement) => {
   if (hasInvalidInput(inputList)) {
-    // buttonElement.disabled = true;
+    buttonElement.disabled = true;
     buttonElement.classList.add("popup__button_disabled");
   } else {
-    // buttonElement.disabled = false;
+    buttonElement.disabled = false;
     buttonElement.classList.remove("popup__button_disabled");
   }
 };

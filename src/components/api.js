@@ -71,11 +71,11 @@ export const addNewCard = (placeNameValue, linkValue) => {
 // Удаление карточки
 
 export const deleteCard = (cardId) => {
-    return fetch(`${config.baseUrl}/cards/${cardTemplate}`, {
+    return fetch(`${config.baseUrl}/cards/${cardId}`, {
         method: 'DELETE',
         headers: config.headers,
         body: JSON.stringify({
-            id: `${cardId.value}`,
+            id: `${cardId}`,
         })
     })
         .then(handleResponse)
@@ -85,11 +85,11 @@ export const deleteCard = (cardId) => {
 // Постановка лайка
 
 export const putLikeData = (cardId) => {
-    return fetch(`${config.baseUrl}/cards/likes/${cardTemplate}`, {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers,
         body: JSON.stringify({
-            id: `${cardId.value}`,
+            id: `${cardId}`,
         })
     })
         .then(handleResponse)
@@ -99,11 +99,11 @@ export const putLikeData = (cardId) => {
 // и снятие лайка
 
 export const deleteLikeData = (cardId) => {
-    return fetch(`${config.baseUrl}/cards`, {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers,
         body: JSON.stringify({
-            id: `${cardId.value}`,
+            id: `${cardId}`,
         })
     })
         .then(handleResponse)

@@ -1,3 +1,5 @@
+import { cardTemplate } from "./index.js";
+
 const config = {
     baseUrl: 'https://nomoreparties.co/v1/wff-cohort-26',
     headers: {
@@ -37,13 +39,13 @@ export const getUserData = () => {
 
 // Редактирование профиля
 
-export const editProfileData = (nameInput, descriptionInput) => {
+export const editProfileData = (nameValue, descriptionValue) => {
     return fetch(`${config.baseUrl}/users/me`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${nameInput.value}`,
-            about: `${descriptionInput.value}`,
+            name: `${nameValue.value}`,
+            about: `${descriptionValue.value}`,
         })
     })
         .then(handleResponse)
@@ -52,14 +54,14 @@ export const editProfileData = (nameInput, descriptionInput) => {
 
 // Добавление новой карточки
 
-export const addNewCard = (placeNameInput, linkInput) => {
+export const addNewCard = (placeNameValue, linkValue) => {
 
     return fetch(`${config.baseUrl}/cards`, {
         method: 'POST',
         headers: config.headers,
         body: JSON.stringify({
-            name: `${placeNameInput.value}`,
-            link: `${linkInput.value}`,
+            name: `${placeNameValue.value}`,
+            link: `${linkValue.value}`,
         })
     })
         .then(handleResponse)
@@ -68,10 +70,13 @@ export const addNewCard = (placeNameInput, linkInput) => {
 
 // Удаление карточки
 
-export const deleteCard = () => {
+export const deleteCard = (cardId) => {
     return fetch(`${config.baseUrl}/cards/${cardTemplate}`, {
         method: 'DELETE',
-        headers: config.headers
+        headers: config.headers,
+        body: JSON.stringify({
+            id: `${cardId.value}`,
+        })
     })
         .then(handleResponse)
 };
@@ -79,33 +84,40 @@ export const deleteCard = () => {
 
 // Постановка лайка
 
-export const putLikeData = () => {
+export const putLikeData = (cardId) => {
     return fetch(`${config.baseUrl}/cards/likes/${cardTemplate}`, {
         method: 'PUT',
         headers: config.headers,
+        body: JSON.stringify({
+            id: `${cardId.value}`,
+        })
     })
         .then(handleResponse)
 };
+
 
 // и снятие лайка
 
-export const deleteLikeData = () => {
+export const deleteLikeData = (cardId) => {
     return fetch(`${config.baseUrl}/cards`, {
         method: 'DELETE',
         headers: config.headers,
+        body: JSON.stringify({
+            id: `${cardId.value}`,
+        })
     })
         .then(handleResponse)
 };
 
+
 // Обновление аватара пользователя
 
-
-export const updateAvatarData = (linkAvatarInput) => {
+export const updateAvatarData = (linkAvatarValue) => {
     return fetch(`${config.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
-            avatar: `${linkAvatarInput.value}`,
+            avatar: `${linkAvatarValue.value}`,
         })
     })
         .then(handleResponse)

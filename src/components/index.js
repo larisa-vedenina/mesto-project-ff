@@ -1,11 +1,7 @@
-// Привет снова! Я приняла во внимание все комментарии, спасибо! Очень рада, что сама разобралась и поняла логику вывода и создания карточек)
-// Я могу здесь задавать вопросы? 
-// сейчас я затрудняюсь с лайками и удалением карточки( не могу понять как сделать счетчик и связать его с запросом
-
 
 import "../pages/index.css";
 // import { initialCards } from "./cards.js";
-import { createCard, removeCard, likeCard } from "./card.js";
+import { createCard, likeCard } from "./card.js";
 import { openModal, closeModal } from "./modal.js";
 import { enableValidation, clearValidation } from "./validation.js";
 import {
@@ -55,9 +51,13 @@ const avatarPopupForm = avatarPopup.querySelector('[name="update-avatar"]');
 const linkAvatarInput = document.querySelector(".popup__input_type_url_avatar");
 const profileImage = document.querySelector(".profile__image");
 
+// попап удаление
+const deleteCardPopup = document.querySelector(".popup_type_delete-card");
+
 // лайк
 const likeButton = document.querySelector(".card__like-button");
-const likeCount = document.querySelector(".like-count");
+
+
 
 // валидация форм
 
@@ -76,6 +76,8 @@ enableValidation(validationConfig);
 
 // вывести карточки на страницу
 
+let userId = null;
+
 Promise.all([getInitialCards(), getUserData()])
   .then(([cards, userData]) => {
     console.log({ cards, userData })
@@ -83,17 +85,45 @@ Promise.all([getInitialCards(), getUserData()])
     profileTitle.textContent = userData.name;
     profileDescription.textContent = userData.about;
 
-    cards.forEach((item) => {
-      listElements.append(createCard(item, removeCard, likeCard, openImagePopup));
-    }
-    );
+    userId = userData._id;
+
+    cards.forEach((cardData) => {
+      listElements.append(createCard(cardData, removeCard, likeCard, openImagePopup, userId));
+    });
   })
   .catch(err => console.log(`Ошибка: ${err}`));
+
+  // удаление карточки
+
+let cardForDelete = {}
+const removeCard = (cardId, cardElement) => {
+  cardForDelete = {
+    id: cardId,
+    cardElement
+  }
+  openModal(deleteCardPopup);
+};
+
+const handleDeleteCardSubmit = () => {
+  evt.preventDefault();
+
+  if (!cardForDelete.cardElement) return;
+
+  deleteCard(cardForDelete.id)
+    .then((data) => {
+      console.log(data);
+
+      cardForDelete.cardElement.remove();
+      closeModal(deleteCardPopup);
+      cardForDelete = {};
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+};
 
 // функция загрузки
 
 function renderLoading(isLoading) {
-  if(isLoading) {
+  if (isLoading) {
     popupButton.innerText = "Сохранение...";
   } else {
     popupButton.innerText = "Сохранить";
@@ -105,7 +135,7 @@ function renderLoading(isLoading) {
 function editProfile(evt) {
   evt.preventDefault();
   renderLoading(true);
-  clearValidation(editProfileForm, validationConfig); 
+  clearValidation(editProfileForm, validationConfig);
 
 
   editProfileData(nameInput, descriptionInput)
@@ -188,7 +218,7 @@ addCardForm.addEventListener("submit", function (evt) {
 
       closeModal(popupTypeNewCard);
       clearForm(addCardForm);
-      clearValidation(addCardForm, validationConfig); 
+      clearValidation(addCardForm, validationConfig);
     })
 
 
@@ -206,38 +236,38 @@ addCardForm.addEventListener("submit", function (evt) {
 //   console.log(data.lakes);
 
 
-  // if (likeButton.classList.contains('card__like-button')) {
-  //   deleteLikeData().then ((data) => {
-  //     console.log(data)
-  //   })
-  // } else {
-  //   putLikeData().then((data) => {
-  //     console.log(data)
-  // })
-  // };
-
-
-  // удаление карточки
-
-//   let cardForDelete = {}
-// const handleDeleteCard = (cardId, cardElement) => {
-//   cardForDelete = {
-//     id: cardId,
-//     cardElement
-//   }
+// if (likeButton.classList.contains('card__like-button')) {
+//   deleteLikeData().then ((data) => {
+//     console.log(data)
+//   })
+// } else {
+//   putLikeData().then((data) => {
+//     console.log(data)
+// })
 // };
 
-// const handleDeleteCardSubmit = (evt) => {
-//   evt.preventDefault();
-//  if (!cardForDelete.cardElement) return;
 
-//  deleteCard(cardForDelete.id)
-//     .then(() => {
+
+
+
+
+// deleteCardPopup.addEventListener("submit", function(evt) {
+//   evt.preventDefault();
+
+//   if (!cardForDelete.cardElement) return;
+
+//   deleteCard(cardForDelete.id)
+//     .then((data) => {
+//       console.log(data);
+
 //       cardForDelete.cardElement.remove();
+//       closeModal(deleteCardPopup);
 //       cardForDelete = {};
 //     })
 //     .catch(err => console.log(`Ошибка: ${err}`))
-// };
+
+// })
+
 
 function clearForm(form) {
   form.reset();
@@ -264,6 +294,8 @@ profileEditButton.addEventListener("click", function () {
 profileAddButton.addEventListener("click", function () {
   openModal(popupTypeNewCard);
 });
+
+
 
 avatarPopupForm.addEventListener("submit", editPrifileImage);
 

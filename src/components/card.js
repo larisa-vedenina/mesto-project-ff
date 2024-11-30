@@ -1,6 +1,6 @@
 
 import { cardTemplate } from "./index.js";
-
+import { putLikeData, deleteLikeData, } from "./api.js";
 
 export function createCard(cardData, removeCard, likeCard, openImagePopup, userId) {
 
@@ -11,6 +11,8 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
   const cardImage = cardElement.querySelector(".card__image");
   const deleteButton = cardElement.querySelector(".card__delete-button");
   const likeButton = cardElement.querySelector(".card__like-button");
+  const likeCount = cardElement.querySelector(".like-count");
+
 
   // меняем значения 
   cardImage.alt = cardData.name;
@@ -18,44 +20,57 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
   cardElement.querySelector(".card__title").textContent = cardData.name;
 
 
-  // проверка айди - мои карточки создаются с разным id и не понимаю, как сделать так, чтобы условие ниже сработало
+  // проверка айди 
 
-  // if (userId !== cardData.owner._id) {
-  //   deleteButton.remove();
-  // }
-
-  // поставить лайк
-
-  const isLiked = cardData.likes.some((like) => like._id === userId);
-  if (isLiked) {
-    likeButton.classList("card__like-button_is-active")
-  };
-
+  if (userId !== cardData.owner._id) {
+    deleteButton.remove();
+  }
+  
   // удаление карточки
-
+  
   deleteButton.addEventListener("click", () => {
     removeCard(cardData._id, cardElement);
   });
+  
+  // состояние лайка
 
-  // deleteButton.addEventListener("click", () => removeCard(cardElement));
+  const isLiked = cardData.likes.some((like) => like._id === userId);
 
-  likeButton.addEventListener("click", likeCard);
+  if (isLiked) {
+    likeButton.classList.add("card__like-button_is-active");
+  };
+
+  // like на карточке
+
+  likeButton.addEventListener("click", () => {
+    likeCard(cardData.owner._id, cardData.likes.length);
+  });
 
   cardImage.addEventListener("click", openImagePopup);
 
   return cardElement;
-}
-
-// Функция удаления карточки
-
-export function removeCard(cardData) {
-  cardData.remove();
-}
+};
 
 
 
-// @todo: like на карточке
 
-export function likeCard(card) {
-  card.target.classList.toggle("card__like-button_is-active");
+
+
+
+// export function likeCard(card) {
+//   card.target.classList.toggle("card__like-button_is-active");
+// }
+
+let cardForLike = {}
+
+export function likeCard(likeId, likeLength) {
+  cardForLike = {
+    id: likeId,
+    length: likeLength
+  }
+
+  putLikeData(likeId).then((data) => {
+
+    console.log(data)
+  })
 }

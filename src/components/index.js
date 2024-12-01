@@ -43,13 +43,13 @@ const nameValue = document.querySelector('[name="name-input"]');
 const descriptionValue = document.querySelector('[name="description-input"]');
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const editProfileSubmitButton = editProfileForm.querySelector(".popup__button-edit-profile");
+// const editProfileSubmitButton = editProfileForm.querySelector(".popup__button-edit-profile");
 
 // форма создания карточки
 const addCardForm = document.querySelector('[name="new-place"]');
 const placeNameValue = document.querySelector('[name="place-name-input"]');
 const linkValue = document.querySelector('[name="link-input"]');
-const addCardSubmitButton = addCardForm.querySelector(".popup__button-new-card");
+// const addCardSubmitButton = addCardForm.querySelector(".popup__button-new-card");
 
 //аватар попап
 const avatarPopup = document.querySelector(".popup_type_update-avatar");
@@ -66,22 +66,21 @@ const popupButtonDeleteCard = deleteCardPopup.querySelector(".popup__button_card
 
 // валидация форм
 
-const validationConfig = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
-
-
-enableValidation(validationConfig);
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}); 
 
 
 // вывести карточки на страницу
 
-let userId = {};
+let userId;
+let userName;
+let userAbout;
 
 Promise.all([getInitialCards(), getUserData()])
   .then(([cards, userData]) => {
@@ -91,6 +90,8 @@ Promise.all([getInitialCards(), getUserData()])
     profileDescription.textContent = userData.about;
 
     userId = userData._id;
+    userName = userData.name;
+    userAbout = userData.about;
 
     cards.forEach((cardData) => {
       listElements.append(createCard(cardData, removeCard, likeCard, openImagePopup, userId));
@@ -115,7 +116,7 @@ function renderLoading(isLoading) {
 function editProfile(evt) {
   evt.preventDefault();
   renderLoading(true);
-  clearValidation(editProfileForm, validationConfig);
+  // clearValidation(editProfileForm, enableValidation);
 
 
   editProfileData(nameValue, descriptionValue)
@@ -137,7 +138,6 @@ function editProfile(evt) {
     .catch(err => console.log(`Ошибка: ${err}`))
 
     .finally(() => {
-      editProfileSubmitButton.classList.add("popup__button_disabled");
       renderLoading(false);
     });
 }
@@ -149,13 +149,13 @@ editProfileForm.addEventListener("submit", editProfile);
 function editPrifileImage(evt) {
   evt.preventDefault();
   renderLoading(true);
+  // clearValidation(avatarPopupForm, enableValidation);
+
 
   updateAvatarData(linkAvatarValue).then((data) => {
     console.log(data);
 
-    const newAva = data.avatar;
-
-    profileImage.style.backgroundImage = "url(" + newAva + ")";
+    profileImage.style.backgroundImage = "url(" + data.avatar + ")";
 
     closeModal(avatarPopup);
     clearForm(avatarPopupForm);
@@ -177,29 +177,23 @@ profileImage.addEventListener("click", function () {
 addCardForm.addEventListener("submit", function (evt) {
   evt.preventDefault();
   renderLoading(true);
+  // clearValidation(addCardForm, enableValidation);
 
   addNewCard(placeNameValue, linkValue)
     .then((data) => {
       console.log(data);
 
-      const newCardData = {
-        name: data.name,
-        link: data.link,
-      }
-
-      const newCardElement = createCard(newCardData, removeCard, likeCard, openImagePopup)
+      const newCardElement = createCard(data, removeCard, likeCard, openImagePopup, userId)
         
       listElements.prepend(newCardElement);
 
       closeModal(popupTypeNewCard);
       clearForm(addCardForm);
-      clearValidation(addCardForm, validationConfig);
     })
 
     .catch(err => console.log(`Ошибка: ${err}`))
 
     .finally(() => {
-      addCardSubmitButton.classList.add("popup__button_disabled");
       renderLoading(false);
     });
 });
@@ -207,7 +201,7 @@ addCardForm.addEventListener("submit", function (evt) {
 
 // удаление карточки
 
-let cardForDelete = {}
+let cardForDelete = {};
 const removeCard = (cardId, cardElement) => {
   cardForDelete = {
     id: cardId,
@@ -234,7 +228,6 @@ popupButtonDeleteCard.addEventListener("click", function (evt) {
     .catch(err => console.log(`Ошибка: ${err}`))
 
     .finally(() => {
-      popupButtonDeleteCard.classList.add("popup__button_disabled");
       renderLoading(false);
     });
 })
@@ -261,10 +254,14 @@ function openImagePopup(evt) {
 
 profileEditButton.addEventListener("click", function () {
   openModal(popupTypeEdit);
+  nameValue.value = userName;
+  descriptionValue.value = userAbout;
+  // clearValidation(editProfileForm, enableValidation);
 });
 
 profileAddButton.addEventListener("click", function () {
   openModal(popupTypeNewCard);
+  // clearValidation(addCardForm, enableValidation);
 });
 
 

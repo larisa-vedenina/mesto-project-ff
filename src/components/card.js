@@ -1,5 +1,4 @@
-
-import { cardTemplate } from "./index.js";
+import { cardTemplate } from "./index.js"; 
 import { putLikeData, deleteLikeData, } from "./api.js";
 
 export function createCard(cardData, removeCard, likeCard, openImagePopup, userId) {
@@ -46,7 +45,7 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
   // like на карточке
 
   likeButton.addEventListener("click", () => {
-    likeCard(cardData._id, cardData.likes.length, likeButton);
+    likeCard(likeButton, likeCount, cardData._id);
   });
 
   // состояние лайк
@@ -61,35 +60,28 @@ export function createCard(cardData, removeCard, likeCard, openImagePopup, userI
 
 // функция лайка
 
-let cardForLike = {}
 
 //при клике будет срабатывать функция, которая принимает айди карточки, кол-во лайков, саму кнопку
-export const likeCard = (cardId, likeLength, likeButton) => {
+export const likeCard = (likeCard, likeLength, cardId) => {
   
-  cardForLike = {
-    id: cardId,
-    length: likeLength,
-  }
-
   // если кнопка закрашена, то запрашиваем id на сервере и убираем лайк
-  if (likeButton.classList.contains('card__like-button_is-active')) {
-    deleteLikeData(cardForLike.id)
+  if (likeCard.classList.contains('card__like-button_is-active')) {
+    deleteLikeData(cardId)
       .then((data) => {
         console.log(data);
 
         // убираем активный класс с кнопки и уменьшаем счетчик на 1
-        likeButton.classList.remove("card__like-button_is-active");
-        likeLength--;
+        likeCard.classList.remove("card__like-button_is-active");
+        likeLength.textContent = data.likes.length;
       })
       .catch(err => console.log(`Ошибка: ${err}`))
   }
   // иначе мы закрашиваем кнопку и учеличиваем счетчик
   else {
-    putLikeData(cardForLike.id)
-      .then(() => {
-        likeButton.classList.add("card__like-button_is-active");
-        likeLength++;
-        // likeCount.textContent = likeLength - 1;
+    putLikeData(cardId)
+      .then((data) => {
+        likeCard.classList.add("card__like-button_is-active");
+        likeLength.textContent = data.likes.length;
       })
       .catch(err => console.log(`Ошибка: ${err}`))
   };

@@ -1,6 +1,3 @@
-// Станислав, спасибо Вам огромное еще раз за помощь! Прошу прощения, что нарушала правила, впредь буду стараться укладываться в дедлайны
-// Вроде бы все....
-
 import "../pages/index.css";
 import { createCard, likeCard } from "./card.js";
 import { openModal, closeModal } from "./modal.js";

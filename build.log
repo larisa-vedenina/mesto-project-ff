@@ -1,0 +1,10 @@
+
+> mesto-project-ff-main@1.0.0 build
+> npx webpack --mode=production
+
+CLI for webpack must be installed.
+  webpack-cli (https://github.com/webpack/webpack-cli)
+
+We will use "npm" to install the CLI via "npm install -D webpack-cli".
+Do you want to install 'webpack-cli' (yes/no): You need to install 'webpack-cli' to use webpack via CLI.
+You can also install the CLI manually.
